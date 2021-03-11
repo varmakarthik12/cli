@@ -9,6 +9,11 @@ const npm = {
     json: false,
     parseable: false,
   },
+  commands: {
+    help: {
+      description: 'test help description',
+    },
+  },
   config: {
     settings: {
       'if-present': false,
@@ -261,6 +266,7 @@ t.test('try to run missing script', t => {
   npm.localPrefix = t.testdir({
     'package.json': JSON.stringify({
       scripts: { hello: 'world' },
+      bin: { goodnight: 'moon' },
     }),
   })
   t.test('no suggestions', t => {
@@ -271,10 +277,24 @@ t.test('try to run missing script', t => {
       t.end()
     })
   })
-  t.test('suggestions', t => {
+  t.test('script suggestions', t => {
     runScript.exec(['helo'], er => {
       t.match(er, {
-        message: 'missing script: helo\n\nDid you mean this?\n    hello',
+        message: 'missing script: helo',
+      })
+      t.match(er, {
+        message: 'npm run hello',
+      })
+      t.end()
+    })
+  })
+  t.test('bin suggestions', t => {
+    runScript.exec(['goodneght'], er => {
+      t.match(er, {
+        message: 'missing script: goodneght',
+      })
+      t.match(er, {
+        message: 'npm exec goodnight',
       })
       t.end()
     })
