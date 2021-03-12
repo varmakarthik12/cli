@@ -10,7 +10,11 @@ const log = require('npmlog')
 log.level = 'silent'
 
 // mock config
-const {defaults} = require('../../lib/utils/config.js')
+const {definitions} = require('../../lib/utils/config')
+const defaults = Object.entries(definitions).reduce((defaults, [key, def]) => {
+  defaults[key] = def.default
+  return defaults
+}, {})
 
 const config = {
   list: [defaults],
