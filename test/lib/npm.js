@@ -159,7 +159,7 @@ t.test('npm.load', t => {
       npm.load(third)
       t.equal(thirdCalled, true, 'third callbback got called')
       t.match(logs, [
-        ['timing', 'npm:load', /Completed in [0-9\.]+ms/],
+        ['timing', 'npm:load', /Completed in [0-9.]+ms/],
       ])
       logs.length = 0
 
@@ -290,7 +290,7 @@ t.test('npm.load', t => {
         [
           'timing',
           'npm:load:whichnode',
-          /Completed in [0-9\.]+ms/,
+          /Completed in [0-9.]+ms/,
         ],
         [
           'verbose',
@@ -300,7 +300,7 @@ t.test('npm.load', t => {
         [
           'timing',
           'npm:load',
-          /Completed in [0-9\.]+ms/,
+          /Completed in [0-9.]+ms/,
         ],
       ])
       logs.length = 0
@@ -332,12 +332,12 @@ t.test('npm.load', t => {
         [
           'timing',
           'command:config',
-          /Completed in [0-9\.]+ms/,
+          /Completed in [0-9.]+ms/,
         ],
         [
           'timing',
           'command:get',
-          /Completed in [0-9\.]+ms/,
+          /Completed in [0-9.]+ms/,
         ],
       ])
       t.same(consoleLogs, [['scope=@foo\n\u2010not-a-dash=undefined']])

@@ -20,9 +20,9 @@ t.test('time some stuff', t => {
       process.emit('timeEnd', 'foo')
       process.emit('timeEnd', 'baz')
       t.match(logs, [
-        ['timing', 'foo', /Completed in [0-9\.]+ms/],
-        ['timing', 'bar', /Completed in [0-9\.]+ms/],
-        ['timing', 'foo', /Completed in [0-9\.]+ms/],
+        ['timing', 'foo', /Completed in [0-9.]+ms/],
+        ['timing', 'bar', /Completed in [0-9.]+ms/],
+        ['timing', 'foo', /Completed in [0-9.]+ms/],
         [
           'silly',
           'timing',

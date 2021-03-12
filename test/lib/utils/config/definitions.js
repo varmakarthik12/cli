@@ -121,7 +121,7 @@ t.test('local-address allowed types', t => {
       },
     }
     const defs = requireInject(defpath, { os })
-    t.same(defs['local-address'].type, [ null ])
+    t.same(defs['local-address'].type, [null])
     t.end()
   })
   t.end()
@@ -255,13 +255,13 @@ t.test('flatteners that populate flat.omit array', t => {
     t.strictSame(flat, {}, 'do nothing by default')
 
     definitions.optional.flatten('optional', true, obj, flat)
-    t.strictSame(obj, {include:['optional']}, 'include optional when set')
-    t.strictSame(flat, {omit:[]}, 'nothing to omit in flatOptions')
+    t.strictSame(obj, {include: ['optional']}, 'include optional when set')
+    t.strictSame(flat, {omit: []}, 'nothing to omit in flatOptions')
 
     delete obj.include
     definitions.optional.flatten('optional', false, obj, flat)
-    t.strictSame(obj, {omit:['optional']}, 'omit optional when set false')
-    t.strictSame(flat, {omit:['optional']}, 'omit optional when set false')
+    t.strictSame(obj, {omit: ['optional']}, 'omit optional when set false')
+    t.strictSame(flat, {omit: ['optional']}, 'omit optional when set false')
 
     t.end()
   })
@@ -270,8 +270,8 @@ t.test('flatteners that populate flat.omit array', t => {
     const flat = {}
     const obj = {}
     definitions.production.flatten('production', true, obj, flat)
-    t.strictSame(obj, {omit:['dev']}, '--production sets --omit=dev')
-    t.strictSame(flat, {omit:['dev']}, '--production sets --omit=dev')
+    t.strictSame(obj, {omit: ['dev']}, '--production sets --omit=dev')
+    t.strictSame(flat, {omit: ['dev']}, '--production sets --omit=dev')
 
     delete obj.omit
     delete flat.omit
@@ -281,8 +281,8 @@ t.test('flatteners that populate flat.omit array', t => {
 
     obj.include = ['dev']
     definitions.production.flatten('production', true, obj, flat)
-    t.strictSame(obj, {include:['dev'], omit: ['dev']}, 'omit and include dev')
-    t.strictSame(flat, {omit:[]}, 'do not omit dev when included')
+    t.strictSame(obj, {include: ['dev'], omit: ['dev']}, 'omit and include dev')
+    t.strictSame(flat, {omit: []}, 'do not omit dev when included')
 
     t.end()
   })
@@ -358,7 +358,7 @@ t.test('retry options', t => {
     const msg = `${config} -> retry.${option}`
     const flat = {}
     definitions[config].flatten(config, 99, obj, flat)
-    t.strictSame(flat, {retry:{[option]:99}}, msg)
+    t.strictSame(flat, {retry: {[option]: 99}}, msg)
   }
   t.end()
 })
@@ -367,16 +367,16 @@ t.test('search options', t => {
   const obj = {}
   // <config>: flat.search[<option>]
   const mapping = {
-    'description': 'description',
-    'searchexclude': 'exclude',
-    'searchlimit': 'limit',
-    'searchstaleness': 'staleness',
+    description: 'description',
+    searchexclude: 'exclude',
+    searchlimit: 'limit',
+    searchstaleness: 'staleness',
   }
   for (const [config, option] of Object.entries(mapping)) {
     const msg = `${config} -> search.${option}`
     const flat = {}
     definitions[config].flatten(config, 99, obj, flat)
-    t.strictSame(flat, { search:{ limit: 20, [option]: 99 }}, msg)
+    t.strictSame(flat, { search: { limit: 20, [option]: 99 }}, msg)
   }
   const flat = {}
   definitions.searchopts.flatten('searchopts', 'a=b&b=c', obj, flat)
@@ -396,7 +396,7 @@ t.test('search options', t => {
 t.test('noProxy', t => {
   const obj = {}
   const flat = {}
-  definitions.noproxy.flatten('noproxy', ['1.2.3.4,2.3.4.5','3.4.5.6'], obj, flat)
+  definitions.noproxy.flatten('noproxy', ['1.2.3.4,2.3.4.5', '3.4.5.6'], obj, flat)
   t.strictSame(flat, { noProxy: '1.2.3.4,2.3.4.5,3.4.5.6' })
   t.end()
 })
@@ -451,7 +451,8 @@ t.test('scriptShell', t => {
   const obj = {}
   const flat = {}
   definitions['script-shell'].flatten('script-shell', null, obj, flat)
-  t.ok(flat.hasOwnProperty('scriptShell'), 'should set it to undefined explicitly')
+  t.ok(Object.prototype.hasOwnProperty.call(flat, 'scriptShell'),
+    'should set it to undefined explicitly')
   t.strictSame(flat, { scriptShell: undefined }, 'no other fields')
 
   definitions['script-shell'].flatten('script-shell', 'asdf', obj, flat)
@@ -463,7 +464,7 @@ t.test('scriptShell', t => {
 t.test('defaultTag', t => {
   const obj = {}
   const flat = {}
-  definitions['tag'].flatten('tag', 'next', obj, flat)
+  definitions.tag.flatten('tag', 'next', obj, flat)
   t.strictSame(flat, {defaultTag: 'next'})
   t.end()
 })
@@ -532,17 +533,17 @@ t.test('saveType', t => {
     t.strictSame(flat, {}, 'no effect if false and not yet set')
 
     definitions['save-peer'].flatten('save-peer', true, obj, flat)
-    t.strictSame(flat, {saveType:'peer'}, 'set saveType to peer if unset')
+    t.strictSame(flat, {saveType: 'peer'}, 'set saveType to peer if unset')
 
     flat.saveType = 'optional'
     definitions['save-peer'].flatten('save-peer', true, obj, flat)
-    t.strictSame(flat, {saveType:'peerOptional'}, 'set to peerOptional if optional already')
+    t.strictSame(flat, {saveType: 'peerOptional'}, 'set to peerOptional if optional already')
 
     definitions['save-peer'].flatten('save-peer', true, obj, flat)
-    t.strictSame(flat, {saveType:'peerOptional'}, 'no effect if already peerOptional')
+    t.strictSame(flat, {saveType: 'peerOptional'}, 'no effect if already peerOptional')
 
     definitions['save-peer'].flatten('save-peer', false, obj, flat)
-    t.strictSame(flat, {saveType:'optional'}, 'switch peerOptional to optional if false')
+    t.strictSame(flat, {saveType: 'optional'}, 'switch peerOptional to optional if false')
 
     flat.saveType = 'peer'
     definitions['save-peer'].flatten('save-peer', false, obj, flat)
@@ -558,17 +559,17 @@ t.test('saveType', t => {
     t.strictSame(flat, {}, 'no effect if false and not yet set')
 
     definitions['save-optional'].flatten('save-optional', true, obj, flat)
-    t.strictSame(flat, {saveType:'optional'}, 'set saveType to optional if unset')
+    t.strictSame(flat, {saveType: 'optional'}, 'set saveType to optional if unset')
 
     flat.saveType = 'peer'
     definitions['save-optional'].flatten('save-optional', true, obj, flat)
-    t.strictSame(flat, {saveType:'peerOptional'}, 'set to peerOptional if peer already')
+    t.strictSame(flat, {saveType: 'peerOptional'}, 'set to peerOptional if peer already')
 
     definitions['save-optional'].flatten('save-optional', true, obj, flat)
-    t.strictSame(flat, {saveType:'peerOptional'}, 'no effect if already peerOptional')
+    t.strictSame(flat, {saveType: 'peerOptional'}, 'no effect if already peerOptional')
 
     definitions['save-optional'].flatten('save-optional', false, obj, flat)
-    t.strictSame(flat, {saveType:'peer'}, 'switch peerOptional to peer if false')
+    t.strictSame(flat, {saveType: 'peer'}, 'switch peerOptional to peer if false')
 
     flat.saveType = 'optional'
     definitions['save-optional'].flatten('save-optional', false, obj, flat)
